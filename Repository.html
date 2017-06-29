@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>GITHUB INFORMATION</title>
+	    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<style type="text/css">
+	    body{
+	    	background-color:pink;
+	    }
+	     
+		div{
+			text-align: center;
+			margin-top: 5%;
+		}
+		img {
+    display: block;
+    margin: auto;
+}
+		footer { 
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          padding: 1rem;
+          background-color: #efefef;
+          text-align: center;
+   
+}
+		</style>
+
+<body>
+<div id="id1">
+
+<h1> GitHub Information</h1>
+<input type="text"  id="text" placeholder="Enter your GitHub username" >
+<button id="button" onclick="myFunction()">submit</button>
+    <div id="table">
+          </div>
+</div>
+<script type="text/javascript">
+		function myFunction(){
+			var gitSite="https://api.github.com/users/"
+
+var repos="/repos";
+
+var greq= new XMLHttpRequest();
+
+
+$("#button").on("click",function(){
+	
+
+
+				table.textContent=" ";
+
+	
+				var value=$("#text").val();
+				
+					if(value != 0){
+						console.log(value);
+
+
+	 			var fullsite=gitSite+value+repos;
+
+				greq.open("GET",fullsite);
+
+			greq.onload=function(){
+
+
+					var data=JSON.parse(greq.responseText);
+
+			
+					var table = "<table class='table table-bordered table-hover table-condensed small'>"+"UserName = "+" "+value+" "+"<br>";
+
+
+					var content = table+"<th>Repositories</th>"+"<th>Repository ID</th>"+"<th>url</th>";
+			
+			
+					for(i=0; i<data.length; i++){
+    				content += '<tr scope="row"> <td>'  +  data[i].name+ '</td>'+'<td>'+ data[i].id +'</td>'+  '<td>'+data[i].html_url+'</td></tr>';
+
+    				}
+					content += "</table>"
+			
+					$("#table").append(content);
+			}	
+			greq.send();	
+		}
+		else{
+			alert("please enter a GitHub Username")
+		}
+		
+					
+			});
+
+		}
+		</script>
+		<footer>
+  <p>Posted by: Neha Naaz</p>
+  <p>Contact information: <a href="mailto:someone@example.com">
+  someone@example.com</a>.</p>
+</footer>
+</body>
+</html>
