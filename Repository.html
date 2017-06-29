@@ -43,48 +43,35 @@
 
 var repos="/repos";
 
-var greq= new XMLHttpRequest();
+var req= new XMLHttpRequest();
 
 
 $("#button").on("click",function(){
+	table.textContent=" ";
+var value=$("#text").val();
+if(value != 0){
+	console.log(value);
+        var fullsite=gitSite+value+repos;
 	
+req.open("GET",fullsite);
+req.onload=function(){
 
+	var data=JSON.parse(req.responseText);
 
-				table.textContent=" ";
+	var table = "<table class='table table-bordered table-hover table-condensed small'>"+"UserName = "+" "+value+" "+"<br>";
 
-	
-				var value=$("#text").val();
-				
-					if(value != 0){
-						console.log(value);
-
-
-	 			var fullsite=gitSite+value+repos;
-
-				greq.open("GET",fullsite);
-
-			greq.onload=function(){
-
-
-					var data=JSON.parse(greq.responseText);
-
+var content = table+"<th>Repositories</th>"+"<th>Repository ID</th>"+"<th>url</th>";
 			
-					var table = "<table class='table table-bordered table-hover table-condensed small'>"+"UserName = "+" "+value+" "+"<br>";
+for(i=0; i<data.length; i++){
+   content += '<tr scope="row"> <td>'  +  data[i].name+ '</td>'+'<td>'+ data[i].id +'</td>'+  '<td>'+data[i].html_url+'</td></tr>';
 
-
-					var content = table+"<th>Repositories</th>"+"<th>Repository ID</th>"+"<th>url</th>";
+    }
+content += "</table>"
 			
-			
-					for(i=0; i<data.length; i++){
-    				content += '<tr scope="row"> <td>'  +  data[i].name+ '</td>'+'<td>'+ data[i].id +'</td>'+  '<td>'+data[i].html_url+'</td></tr>';
-
-    				}
-					content += "</table>"
-			
-					$("#table").append(content);
-			}	
-			greq.send();	
-		}
+$("#table").append(content);
+}	
+req.send();	
+}
 		else{
 			alert("please enter a GitHub Username")
 		}
